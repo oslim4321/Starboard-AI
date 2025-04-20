@@ -16,21 +16,20 @@ import IRRSensitivityTable from "./components/IRRSensitivityTable";
 const DealOverview = () => {
   return (
     <div className="font-sans text-gray-800 bg-white min-h-screen">
+      <div className="mb-10 flex flex-col md:flex-row items-center justify-between border-b py-6 container mx-auto">
+        <h1 className="text-2xl font-bold">Deal Overview</h1>
+
+        {/* Underwriting Model */}
+        <div className="flex w-full md:w-auto flex-col items-center md:items-end mt-4 md:mt-0">
+          <span className="text-lg text-[#09090B] mb-2 text-center md:text-right">
+            Underwriting Model
+          </span>
+          <FileSelect />
+        </div>
+      </div>
       <IRRSensitivityTable />
       {/* Main Content */}
       <div className="px-6 py-4 container mx-auto space-y-6">
-        <div className="mb-10 flex flex-col md:flex-row items-start md:items-center justify-between border-b py-6">
-          <h1 className="text-2xl font-bold">Deal Overview</h1>
-
-          {/* Underwriting Model */}
-          <div className="flex w-full md:w-auto flex-col items-center md:items-end mt-4 md:mt-0">
-            <span className="text-lg text-[#09090B] mb-2 text-center md:text-right">
-              Underwriting Model
-            </span>
-            <FileSelect />
-          </div>
-        </div>
-
         <div className="flex flex-col md:flex-row gap-8 mb-8">
           {/* Property Image */}
           <div className="relative w-full md:w-1/3">

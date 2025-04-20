@@ -59,7 +59,7 @@ const IRRSensitivityTable: React.FC = () => {
   const { exitCapRates, rentalGrowth, irrValues } = sensitivityData;
 
   return (
-    <div className="w-full container bg-white rounded-lg shadow-sm p-4 mx-auto my-8">
+    <div className="w-full container bg-[#C1C1C14D] rounded-lg shadow-sm p-4 mx-auto my-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
