@@ -1,17 +1,10 @@
-import React, { useState } from "react";
 import {
-  ArrowLeft,
-  Building2,
   DollarSign,
   Percent,
   Maximize2,
   Map,
   Mountain,
-  Clock,
   Users,
-  Home,
-  Car,
-  Truck,
 } from "lucide-react";
 import Image from "next/image";
 import { FileSelect } from "./components/FileSelect";
@@ -21,28 +14,17 @@ import RealEstateListings from "./components/RealEstateListings";
 import IRRSensitivityTable from "./components/IRRSensitivityTable";
 
 const DealOverview = () => {
-  const [expandedSection, setExpandedSection] = useState("");
-
-  const toggleSection = (section: string) => {
-    if (expandedSection === section) {
-      setExpandedSection("");
-    } else {
-      setExpandedSection(section);
-    }
-  };
-
   return (
     <div className="font-sans text-gray-800 bg-white min-h-screen">
       <IRRSensitivityTable />
       {/* Main Content */}
       <div className="px-6 py-4 container mx-auto space-y-6">
-        <div className="mb-10 flex items-center justify-between border-b py-6">
-          <div>
-            <h1 className="text-2xl font-bold">Deal Overview</h1>
-          </div>
+        <div className="mb-10 flex flex-col md:flex-row items-start md:items-center justify-between border-b py-6">
+          <h1 className="text-2xl font-bold">Deal Overview</h1>
+
           {/* Underwriting Model */}
-          <div className="flex justify-center flex-col">
-            <span className="text-[18px] text-[#09090B] mb-2 text-center ">
+          <div className="flex w-full md:w-auto flex-col items-center md:items-end mt-4 md:mt-0">
+            <span className="text-lg text-[#09090B] mb-2 text-center md:text-right">
               Underwriting Model
             </span>
             <FileSelect />

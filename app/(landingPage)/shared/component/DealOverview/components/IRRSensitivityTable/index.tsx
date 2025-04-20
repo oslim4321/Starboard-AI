@@ -12,7 +12,6 @@ const IRRSensitivityTable: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Color mapping function based on IRR value
   const getBackgroundColor = (value: number): string => {
     if (value >= 20) return "bg-green-300";
     if (value >= 16) return "bg-green-200";
@@ -22,7 +21,6 @@ const IRRSensitivityTable: React.FC = () => {
     return "bg-red-200";
   };
 
-  // Mock data - would be replaced by API data in production
   const mockData: SensitivityData = {
     exitCapRates: [4.0, 4.5, 5.0, 5.5, 6.0],
     rentalGrowth: [4.5, 4.0, 3.5, 3.0, 2.5],
@@ -36,21 +34,14 @@ const IRRSensitivityTable: React.FC = () => {
   };
 
   useEffect(() => {
-    // Function to fetch data from API
     const fetchData = async (): Promise<void> => {
       try {
         setLoading(true);
-
-        // In a real application, you would replace this with your API endpoint
-        // const response = await fetch('/api/sensitivity-data');
-        // const data = await response.json();
-
-        // For now, simulate API call with mockData
         setTimeout(() => {
           setSensitivityData(mockData);
           setLoading(false);
         }, 500);
-      } catch (err) {
+      } catch {
         setError("Failed to load sensitivity data");
         setLoading(false);
       }
@@ -68,18 +59,18 @@ const IRRSensitivityTable: React.FC = () => {
   const { exitCapRates, rentalGrowth, irrValues } = sensitivityData;
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-sm p-4 container mx-auto my-8">
-      <div className="flex justify-between items-center mb-6">
+    <div className="w-full container bg-white rounded-lg shadow-sm p-4 mx-auto my-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
             <span className="text-gray-700 text-sm">AI</span>
           </div>
-          <h2 className="text-lg font-medium">Rental Growth</h2>
+          <h2 className="text-lg sm:text-xl font-medium">Rental Growth</h2>
         </div>
-        <div className="relative max-w-md w-full">
+        <div className="relative w-full sm:max-w-md">
           <input
             type="text"
-            className="w-full px-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
             placeholder="Sensitize IRR on varying Exit Cap Rates and Rental Growth"
             readOnly
           />
@@ -87,21 +78,21 @@ const IRRSensitivityTable: React.FC = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
+        <table className="w-full border-collapse text-sm">
           <thead>
             <tr>
-              <th className="border border-gray-200 p-2"></th>
+              <th className="border border-gray-200 p-1 sm:p-2"></th>
               {exitCapRates.map((rate, index) => (
                 <th
                   key={index}
-                  className="border border-gray-200 p-2 text-center font-medium bg-gray-50"
+                  className="border border-gray-200 p-1 sm:p-2 text-center font-medium bg-gray-50"
                 >
                   {rate.toFixed(2)}%
                 </th>
               ))}
             </tr>
             <tr>
-              <th className="border border-gray-200 p-2"></th>
+              <th className="border border-gray-200 p-1 sm:p-2"></th>
               <th
                 colSpan={exitCapRates.length}
                 className="border border-gray-200 p-1 text-center font-medium bg-gray-50"
@@ -113,13 +104,13 @@ const IRRSensitivityTable: React.FC = () => {
           <tbody>
             {rentalGrowth.map((growth, rowIndex) => (
               <tr key={rowIndex}>
-                <td className="border border-gray-200 p-2 font-medium bg-gray-50">
+                <td className="border border-gray-200 p-1 sm:p-2 font-medium bg-gray-50">
                   {growth.toFixed(1)}%
                 </td>
                 {exitCapRates.map((_, colIndex) => (
                   <td
                     key={colIndex}
-                    className={`border border-gray-200 p-2 text-center ${getBackgroundColor(
+                    className={`border border-gray-200 p-1 sm:p-2 text-center ${getBackgroundColor(
                       irrValues[rowIndex][colIndex]
                     )}`}
                   >
