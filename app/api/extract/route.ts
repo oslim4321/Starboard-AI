@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { writeFile } from "fs/promises";
 import { join } from "path";
 import os from "os";
-import pdfParse from "pdf-parse";
+import pdfParse from "pdf-parse/lib/pdf-parse.js";
 import { Buffer } from "buffer";
 import axios from "axios";
 

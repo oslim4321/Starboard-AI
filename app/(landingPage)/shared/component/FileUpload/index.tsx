@@ -41,7 +41,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      toast("Data extracted successfulya");
+      toast("Data extracted successfully");
 
       onDataExtracted(response.data.data);
     } catch (err) {
