@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏢 Starboard Deal Overview App
 
-## Getting Started
+This is a full-stack Next.js app for extracting key deal insights from real estate Offering Memorandum (OM) PDFs. Upload a PDF and the app will parse and display property details like square footage, tenant, lease terms, financing info, and more — all in a clean, responsive UI.
 
-First, run the development server:
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
 
 ```bash
+git clone https://github.com/oslim4321/Starboard-AI.git
+
+cd Starboard-AI
+#Install dependencies
+npm install
+
+#3. Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🧠 Features
+Upload any OM PDF
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Extracts and displays:
 
-## Learn More
+Property name and location
 
-To learn more about Next.js, take a look at the following resources:
+Square footage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Lease terms
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Financing details
 
-## Deploy on Vercel
+Tenant info
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Net Operating Income (NOI)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Credit rating and highlights
+
+Responsive layout with Tailwind CSS and ShadCN
+
+Clean modal-based upload experience

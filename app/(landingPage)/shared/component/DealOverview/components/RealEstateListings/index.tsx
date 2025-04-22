@@ -1,7 +1,8 @@
+import { Comparable } from "@/app/api/extract/route";
 import React from "react";
 
-const RealEstateListings = () => {
-  // Sample data - in a real app this would come from props or API
+const RealEstateListings = ({ data = [] }: { data: Comparable[] }) => {
+  // Sample data for supply pipeline - in a real app this would come from props or API
   const supplyPipeline = [
     {
       image: "/images/brooklyn.png",
@@ -21,48 +22,57 @@ const RealEstateListings = () => {
     },
   ];
 
-  const saleComparables = [
-    {
-      image: "/images/cabot.png",
-      address: "1 Debaun Road",
-      submarket: "Millstone, NJ",
-      date: "Jun-24",
-      sf: "132,930",
-      pp: "$41,903,580",
-      owner: "Cabot",
-      tenant: "Berry Plastics",
-    },
-    {
-      image: "/images/blackstone.png",
-      address: "39 Edgeboro Road",
-      submarket: "Millstone, NJ",
-      date: "Oct-23",
-      sf: "513,240",
-      pp: "$165,776,520",
-      owner: "Blackstone",
-      tenant: "FedEx",
-    },
-    {
-      image: "/images/betnal-green.png",
-      address: "Baylis 495 Business Park",
-      submarket: "Melville, NY",
-      date: "May-24",
-      sf: "103,500",
-      pp: "$44,000,000",
-      owner: "Betnal Green",
-      tenant: "Dr. Pepper",
-    },
-    {
-      image: "/images/goldman.png",
-      address: "Terminal Logistics Center",
-      submarket: "Queens, NY",
-      date: "Mar-23",
-      sf: "336,000",
-      pp: "$136,000,000",
-      owner: "Goldman",
-      tenant: "Do & Co",
-    },
-  ];
+  // Use the first 4 items from the API data if available
+  const saleComparables =
+    data && data.length > 0
+      ? data.slice(0, 4).map((item) => ({
+          image: getImageForProperty(item.propertyName), // Helper function to map images
+          address: item.propertyName,
+          submarket: item.submarket || "N/A",
+          date: item.date || "N/A",
+          sf: formatNumber(item.sf),
+          pp: formatCurrency(item.pp),
+          owner: item.owner || "N/A",
+          tenant: item.tenant || "N/A",
+          capRate: item.capRate || "N/A",
+        }))
+      : [];
+
+  // Helper functions for formatting
+  function formatNumber(value: number | string | undefined): string {
+    if (!value) return "N/A";
+    return typeof value === "number" ? value.toLocaleString() : value;
+  }
+
+  function formatCurrency(value: number | string | undefined): string {
+    if (!value) return "N/A";
+    return typeof value === "number"
+      ? `$${value.toLocaleString()}`
+      : value.startsWith("$")
+      ? value
+      : `$${value}`;
+  }
+
+  // Helper function to map property names to images
+  function getImageForProperty(propertyName: string) {
+    if (!propertyName) return "/images/placeholder.png";
+
+    const imageMap: Record<string, string> = {
+      "Rock Lake Business Center": "/images/cabot.png",
+      "1 Debaun Rd": "/images/cabot.png",
+      "Baylis 495 Business Park": "/images/betnal-green.png",
+      "Blackstone Portfolio": "/images/blackstone.png",
+      "Bridgepoint Maspeth": "/images/goldman.pncabotg",
+      "Northern NJ Core Industrial Portfolio": "/images/blackstone.png",
+      "39 Edgeboro Road": "/images/blackstone.png",
+      "Terminal Logistics Center": "/images/goldman.png",
+      "240 Columbia Street": "/images/brooklyn.png",
+      "12555 Flatlands": "/images/brooklyn.png",
+      "WB Mason": "/images/bronx.png",
+    };
+
+    return imageMap[propertyName] || "/images/cabot.png";
+  }
 
   return (
     <div className="w-full bg-white">
@@ -132,61 +142,88 @@ const RealEstateListings = () => {
             Sale Comparables
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {saleComparables.map((property, index) => (
-              <div key={`comparable-${index}`} className="flex flex-col gap-2">
-                <div className="relative w-full h-36">
-                  <img
-                    src={property.image}
-                    alt={property.address}
-                    className="w-full h-full object-cover rounded"
-                  />
+            {saleComparables.length > 0 ? (
+              saleComparables.map((property, index) => (
+                <div
+                  key={`comparable-${index}`}
+                  className="flex flex-col gap-2"
+                >
+                  <div className="relative w-full h-36">
+                    <img
+                      src={property.image}
+                      alt={property.address}
+                      className="w-full h-full object-cover rounded"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between">
+                      <div>
+                        <span className="font-semibold text-gray-800">
+                          Address:
+                        </span>{" "}
+                        <span className="text-gray-700">
+                          {property.address}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-gray-800">
+                          Date:
+                        </span>{" "}
+                        <span className="text-gray-700">{property.date}</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between">
+                      <div>
+                        <span className="font-semibold text-gray-800">
+                          Submarket:
+                        </span>{" "}
+                        <span className="text-gray-700">
+                          {property.submarket}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-gray-800">PP:</span>{" "}
+                        <span className="text-gray-700">{property.pp}</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between">
+                      <div>
+                        <span className="font-semibold text-gray-800">SF:</span>{" "}
+                        <span className="text-gray-700">{property.sf}</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-gray-800">
+                          Tenant:
+                        </span>{" "}
+                        <span className="text-gray-700">{property.tenant}</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between">
+                      <div>
+                        <span className="font-semibold text-gray-800">
+                          Owner:
+                        </span>{" "}
+                        <span className="text-gray-700">{property.owner}</span>
+                      </div>
+                      {property.capRate && (
+                        <div>
+                          <span className="font-semibold text-gray-800">
+                            Cap Rate:
+                          </span>{" "}
+                          <span className="text-gray-700">
+                            {property.capRate}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <div className="space-y-1">
-                  <div className="flex justify-between">
-                    <div>
-                      <span className="font-semibold text-gray-800">
-                        Address:
-                      </span>{" "}
-                      <span className="text-gray-700">{property.address}</span>
-                    </div>
-                    <div>
-                      <span className="font-semibold text-gray-800">Date:</span>{" "}
-                      <span className="text-gray-700">{property.date}</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between">
-                    <div>
-                      <span className="font-semibold text-gray-800">
-                        Submarket:
-                      </span>{" "}
-                      <span className="text-gray-700">
-                        {property.submarket}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-semibold text-gray-800">PP:</span>{" "}
-                      <span className="text-gray-700">{property.pp}</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between">
-                    <div>
-                      <span className="font-semibold text-gray-800">SF:</span>{" "}
-                      <span className="text-gray-700">{property.sf}</span>
-                    </div>
-                    <div>
-                      <span className="font-semibold text-gray-800">
-                        Tenant:
-                      </span>{" "}
-                      <span className="text-gray-700">{property.tenant}</span>
-                    </div>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-gray-800">Owner:</span>{" "}
-                    <span className="text-gray-700">{property.owner}</span>
-                  </div>
-                </div>
+              ))
+            ) : (
+              <div className="col-span-2 text-center py-12 text-gray-500">
+                No sale comparables data available
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
